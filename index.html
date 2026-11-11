@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rozgar Coach — Agentic AI Career Coach for India's Youth</title>
+<meta name="description" content="Rozgar Coach is a free agentic AI career coach for first-time job seekers in India: personalised weekly roadmaps, resume bullet improver, interview practice and a job application tracker. Built for Code for India — Code for a Billion, Track 10: Tech Employment for Youth.">
+<style>
+:root{
+  --navy:#0b1f3a; --navy2:#122c52; --saffron:#f97316; --saffron2:#ffedd5;
+  --green:#15803d; --green-bg:#dcfce7; --ink:#0f172a; --muted:#64748b;
+  --bg:#f8fafc; --card:#ffffff; --line:#e2e8f0; --radius:16px;
+  --shadow:0 10px 30px rgba(11,31,58,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+a{color:var(--navy2)}
+button,input,select,textarea{font:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+header.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.25rem;color:var(--navy);text-decoration:none}
+.logo-badge{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--saffron),#fbbf24);display:grid;place-items:center;font-size:1.25rem}
+.nav nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav nav a{text-decoration:none;color:var(--muted);font-weight:600;font-size:.92rem;padding:8px 11px;border-radius:999px}
+.nav nav a:hover{background:var(--saffron2);color:var(--navy)}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 62%,#1d4ed8 130%);color:#fff;padding:52px 0 42px}
+.hero h1{font-size:clamp(1.9rem,4.5vw,3.1rem);line-height:1.08;margin:10px 0 12px;max-width:760px}
+.hero p.lead{font-size:1.08rem;color:#dbeafe;max-width:720px;margin:0 0 20px}
+.pill{display:inline-block;background:rgba(249,115,22,.18);border:1px solid rgba(249,115,22,.55);color:#fed7aa;padding:5px 12px;border-radius:999px;font-size:.82rem;font-weight:700;letter-spacing:.02em}
+.btn{display:inline-block;border:0;cursor:pointer;text-decoration:none;font-weight:800;border-radius:12px;padding:13px 20px;font-size:.98rem}
+.btn-primary{background:var(--saffron);color:#fff}
+.btn-primary:hover{background:#ea580c}
+.btn-ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-sm{padding:8px 13px;font-size:.88rem;border-radius:10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:28px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px}
+.stat b{display:block;font-size:1.45rem}
+.stat span{font-size:.85rem;color:#bfdbfe}
+section{padding:38px 0 8px}
+h2{font-size:1.55rem;color:var(--navy);margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 18px;max-width:760px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+label{display:block;font-weight:700;font-size:.9rem;margin:14px 0 6px}
+label:first-child{margin-top:0}
+input[type=text],input[type=date],select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;background:#fff}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--saffron);border-color:var(--saffron)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;cursor:pointer;font-weight:600;font-size:.88rem}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:16px 0}
+.agent{border:1.5px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.agent b{display:flex;gap:8px;align-items:center}
+.agent p{margin:6px 0 0;color:var(--muted);font-size:.9rem}
+.agent .dot{width:10px;height:10px;border-radius:50%;background:#cbd5e1;flex:none}
+.agent.working .dot{background:var(--saffron);animation:pulse 0.7s infinite alternate}
+.agent.done .dot{background:var(--green)}
+@keyframes pulse{from{opacity:.4}to{opacity:1}}
+#agentLog{background:#0b1f3a;color:#a5f3c5;border-radius:12px;padding:14px 16px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85rem;min-height:52px;white-space:pre-wrap}
+.week{border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;background:#fff}
+.week h3{margin:0 0 4px;color:var(--navy);font-size:1.05rem}
+.week .focus{color:var(--saffron);font-weight:800;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em}
+.task{display:flex;gap:9px;align-items:flex-start;padding:6px 0;border-top:1px dashed var(--line)}
+.task:first-of-type{border-top:0}
+.task input{margin-top:4px;width:17px;height:17px;accent-color:var(--green)}
+.task.done span{text-decoration:line-through;color:var(--muted)}
+.proj{background:var(--saffron2);border-radius:10px;padding:9px 12px;font-size:.9rem;margin-top:8px}
+.progress{height:12px;background:var(--line);border-radius:999px;overflow:hidden}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#22c55e);width:0%;transition:width .4s}
+.score-big{font-size:2.6rem;font-weight:900;color:var(--navy);line-height:1}
+.bullet-out{border-left:4px solid var(--saffron);background:#fff7ed;border-radius:0 12px 12px 0;padding:12px 14px;margin:10px 0}
+.bullet-out b{color:var(--navy)}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--green-bg);color:var(--green);padding:3px 8px;border-radius:999px;margin-bottom:5px}
+.qa{border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;background:#fff}
+.qa h3{margin:0 0 6px;font-size:1rem;color:var(--navy)}
+.qa .ans{display:none;background:#f1f5f9;border-radius:10px;padding:11px 13px;margin-top:10px;font-size:.93rem}
+.qa.open .ans{display:block}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.status{font-weight:700;font-size:.8rem;padding:3px 9px;border-radius:999px;background:#e0e7ff;color:#3730a3;white-space:nowrap}
+.empty{color:var(--muted);text-align:center;padding:22px;border:1.5px dashed var(--line);border-radius:12px}
+footer{margin-top:44px;background:var(--navy);color:#cbd5e1;padding:30px 0}
+footer a{color:#fdba74}
+.small{font-size:.86rem;color:var(--muted)}
+.notice{background:#fef9c3;border:1px solid #fde047;border-radius:12px;padding:12px 14px;font-size:.9rem}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="logo" href="#top"><span class="logo-badge" aria-hidden="true">🧭</span> Rozgar Coach</a>
+    <nav aria-label="Main">
+      <a href="#planner">Roadmap</a><a href="#resume">Resume</a><a href="#interview">Interview</a><a href="#tracker">Tracker</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <span class="pill">Code for India · Code for a Billion · Track 10 — Tech Employment for Youth</span>
+    <h1>Your first tech job, coached step by step — free, in your browser.</h1>
+    <p class="lead">Rozgar Coach is an agentic career coach for first-time job seekers across India. Four cooperating agents turn your skills and goal into a weekly learning plan, stronger resume bullets, interview practice, and a tracked path to an offer — no sign-up, no fees, works offline after first load.</p>
+    <a class="btn btn-primary" href="#planner">Build my roadmap →</a>
+    <a class="btn btn-ghost" href="#tracker" style="margin-left:8px">Track my applications</a>
+    <div class="stats" aria-label="Why this matters">
+      <div class="stat"><b>1 crore</b><span>young Indians pledged AI-skills training in the next year — the mission this hackathon answers</span></div>
+      <div class="stat"><b>4 agents</b><span>Planner · Resume · Interview · Tracker — working together on one goal: your offer letter</span></div>
+      <div class="stat"><b>₹0</b><span>Free forever. No account, no API key, no data leaves your device</span></div>
+      <div class="stat"><b>8 roles</b><span>Frontend, backend, data, AI/ML, full-stack, DevOps, design &amp; IT support pathways</span></div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============ PLANNER AGENT ============ -->
+  <section id="planner">
+    <h2>1 · Planner Agent — your weekly roadmap</h2>
+    <p class="sub">Tell the coach where you are and where you want to go. The Planner Agent checks your current skills against the target role, finds the gaps, and sequences them into a week-by-week plan with a portfolio project in every phase. Tick tasks off — your readiness score updates live.</p>
+    <div class="card">
+      <div class="grid2">
+        <div>
+          <label for="fName">Your first name</label>
+          <input type="text" id="fName" placeholder="e.g. Ananya" autocomplete="given-name">
+          <label for="fRole">Target role</label>
+          <select id="fRole">
+            <option value="frontend">Frontend Developer</option>
+            <option value="backend">Backend Developer</option>
+            <option value="fullstack">Full-Stack Developer</option>
+            <option value="data">Data Analyst</option>
+            <option value="aiml">AI / ML Engineer (entry)</option>
+            <option value="devops">DevOps / Cloud Associate</option>
+            <option value="design">UI / UX Designer</option>
+            <option value="support">IT Support / QA</option>
+          </select>
+          <label for="fLevel">Where are you starting from?</label>
+          <select id="fLevel">
+            <option value="beginner">Beginner — little or no coding yet</option>
+            <option value="some">Some basics — done a course / college subjects</option>
+            <option value="project">Built projects — need job readiness</option>
+          </select>
+        </div>
+        <div>
+          <label>Skills you already have (tap all that apply)</label>
+          <div class="chips" id="skillChips" role="group" aria-label="Your current skills"></div>
+          <label for="fHours">Hours you can study per day</label>
+          <select id="fHours">
+            <option value="1">1 hour / day</option>
+            <option value="2" selected>2 hours / day</option>
+            <option value="4">4 hours / day</option>
+            <option value="6">6+ hours / day</option>
+          </select>
+          <label for="fWeeks">Plan length</label>
+          <select id="fWeeks">
+            <option value="4">4 weeks — fast sprint</option>
+            <option value="8" selected>8 weeks — balanced</option>
+            <option value="12">12 weeks — deep build</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="btnPlan" type="button">✦ Generate my roadmap</button>
+        <button class="btn btn-ghost" id="btnDemo" type="button">Load a demo profile</button>
+      </div>
+      <div class="agents" aria-label="How the agents cooperate">
+        <div class="agent" id="agPlanner"><b><span class="dot"></span>🗺️ Planner Agent</b><p>Gap analysis → sequences skills into weekly milestones.</p></div>
+        <div class="agent" id="agResume"><b><span class="dot"></span>📝 Resume Agent</b><p>Turns project work into quantified, recruiter-ready bullets.</p></div>
+        <div class="agent" id="agInterview"><b><span class="dot"></span>🎤 Interview Agent</b><p>Drills role-specific questions with model answer points.</p></div>
+        <div class="agent" id="agTracker"><b><span class="dot"></span>📌 Tracker Agent</b><p>Keeps every application moving — no silent rejections by neglect.</p></div>
+      </div>
+      <div id="agentLog" aria-live="polite">Agent log: waiting for your goal…</div>
+    </div>
+
+    <div id="planOut" style="margin-top:18px"></div>
+
+    <div class="card" id="scoreCard" style="margin-top:18px;display:none">
+      <div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
+        <div><div class="score-big"><span id="scoreNum">0</span>%</div><div class="small">Job-readiness score</div></div>
+        <div style="flex:1;min-width:220px">
+          <div class="progress" role="progressbar" aria-label="Job readiness"><i id="scoreBar"></i></div>
+          <p class="small" id="scoreHint" style="margin:8px 0 0"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESUME AGENT ============ -->
+  <section id="resume">
+    <h2>2 · Resume Agent — bullet improver</h2>
+    <p class="sub">Recruiters skim for <b>action + what you built + measurable result</b>. Paste a weak bullet and the Resume Agent rewrites it three ways using local rules — strong-verb upgrade, quantification prompts, and a concise version. Replace the [bracketed] numbers with your real ones.</p>
+    <div class="card">
+      <label for="bulletIn">Your current resume bullet</label>
+      <textarea id="bulletIn" placeholder="e.g. Worked on a college project website using HTML and CSS and helped my team with testing"></textarea>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-navy" id="btnBullet" type="button">Improve my bullet</button>
+        <button class="btn btn-ghost" id="btnBulletDemo" type="button">Try an example</button>
+      </div>
+      <div id="bulletOut" style="margin-top:8px"></div>
+      <div class="notice" style="margin-top:14px">💡 <b>Honesty rule:</b> never invent numbers. If you don't know a metric, measure it (users, pages, marks, time saved) or use the version without one — a true bullet always beats a fake one in interviews.</div>
+    </div>
+  </section>
+
+  <!-- ============ INTERVIEW AGENT ============ -->
+  <section id="interview">
+    <h2>3 · Interview Agent — practice Q&amp;A</h2>
+    <p class="sub">Pick your role, think your answer out loud first, then reveal the model points and rate yourself honestly. Questions cover the mix Indian entry-level panels actually ask: concepts, practical tasks, and HR rounds.</p>
+    <div class="card">
+      <label for="qRole">Practice for role</label>
+      <select id="qRole">
+        <option value="frontend">Frontend Developer</option>
+        <option value="backend">Backend Developer</option>
+        <option value="fullstack">Full-Stack Developer</option>
+        <option value="data">Data Analyst</option>
+        <option value="aiml">AI / ML Engineer (entry)</option>
+        <option value="devops">DevOps / Cloud Associate</option>
+        <option value="design">UI / UX Designer</option>
+        <option value="support">IT Support / QA</option>
+      </select>
+      <div id="qaOut" style="margin-top:16px"></div>
+      <p class="small">Self-ratings are saved on this device. Aim to reach “Confident” on every question before your interview week.</p>
+    </div>
+  </section>
+
+  <!-- ============ TRACKER AGENT ============ -->
+  <section id="tracker">
+    <h2>4 · Tracker Agent — application tracker</h2>
+    <p class="sub">Most first-time seekers lose offers to disorganisation, not skill. Log every application, update its status, and let the Tracker Agent show your funnel. Saved only in your browser (localStorage) — private by design.</p>
+    <div class="card">
+      <div class="grid2">
+        <div>
+          <label for="aCompany">Company</label>
+          <input type="text" id="aCompany" placeholder="e.g. Razorpay, TCS, a local startup…">
+          <label for="aRole">Role applied for</label>
+          <input type="text" id="aRole" placeholder="e.g. Frontend Developer Intern">
+        </div>
+        <div>
+          <label for="aStatus">Status</label>
+          <select id="aStatus">
+            <option>Wishlist</option><option selected>Applied</option><option>Assessment</option>
+            <option>Interview</option><option>Offer</option><option>Rejected</option>
+          </select>
+          <label for="aDate">Date applied</label>
+          <input type="date" id="aDate">
+        </div>
+      </div>
+      <label for="aNotes">Notes (recruiter name, next step, follow-up date…)</label>
+      <input type="text" id="aNotes" placeholder="e.g. Follow up on Friday if no reply">
+      <div style="margin-top:14px"><button class="btn btn-primary" id="btnAddApp" type="button">+ Add application</button></div>
+      <div id="trackStats" style="margin-top:18px"></div>
+      <div id="trackOut" style="margin-top:10px;overflow-x:auto"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2 style="font-size:1.25rem">Why this, why now</h2>
+      <p>India's first-time tech job seekers — especially outside the metros, in Tier-2/3 towns and government colleges — rarely fail for lack of talent. They fail for lack of a <em>system</em>: they don't know which skill to learn next, their resumes undersell real project work, they meet interview questions for the first time in the interview itself, and applications scatter across WhatsApp, email and memory. Paid coaching is out of reach; generic global tools assume a laptop, a credit card and fluent English idiom.</p>
+      <p style="margin-bottom:0">Rozgar Coach is that missing system, as cooperating agents in a single free web page: it plans, it polishes, it rehearses, it tracks. It directly serves <b>Track 10 — Tech Employment for Youth</b>: job discovery readiness, portfolio building, apprenticeship/internship preparation, and a stronger hiring signal for first-time coders.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0 0 6px"><b style="color:#fff">Rozgar Coach</b> — built solo for <b style="color:#fff">Code for India · Code for a Billion — Bharat Agentic-AI Hackathon 2026</b>, Track 10: Tech Employment for Youth.</p>
+    <p class="small" style="color:#94a3b8;margin:0">Open source (MIT). No accounts, no tracking, no data leaves your device. Deploy anywhere static hosting works — GitHub Pages, Netlify, Vercel, any cloud.</p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+/* ================= Knowledge base ================= */
+var SKILLS = ["HTML/CSS","JavaScript","React","Python","SQL","Java","Git & GitHub","Node.js","Excel / Sheets","Figma","Linux / CLI","Data Analysis","Machine Learning","Cloud (AWS/Azure/GCP)","Testing / QA","Communication"];
+var ROLE_DATA = {
+  frontend:{title:"Frontend Developer", core:["HTML/CSS","JavaScript","React","Git & GitHub"],
+    phases:[
+      {name:"Foundations", items:["Semantic HTML + modern CSS (Flexbox, Grid, responsive design)","JavaScript: DOM, events, fetch, ES6+","Build a responsive personal portfolio site"], project:"Portfolio site with 2 mini-projects, deployed free (GitHub Pages/Netlify)"},
+      {name:"Framework & Tooling", items:["React: components, props, state, hooks, routing","Git & GitHub workflow: branches, PRs, README craft","Consume a public API and handle loading/error states"], project:"React app using a real public API (weather, jobs or movies) with a polished README"},
+      {name:"Job Readiness", items:["Performance & accessibility basics (Lighthouse 90+)","Resume + LinkedIn/GitHub profile polish","Mock interviews + DSA-lite (arrays, strings, objects)"], project:"Capstone: clone a real product UI pixel-close, write a case-study README"}]},
+  backend:{title:"Backend Developer", core:["Python","SQL","Git & GitHub","Node.js"],
+    phases:[
+      {name:"Foundations", items:["One language deeply: Python or Java or Node — functions, OOP, errors","SQL: CRUD, joins, indexes; model a small schema","HTTP & REST fundamentals"], project:"CLI tool + SQL-backed mini app (library / expense tracker)"},
+      {name:"APIs & Auth", items:["Build REST APIs with auth (JWT/sessions) and validation","Git workflow + environment config + logging","Intro testing: unit + API tests"], project:"Full REST API (e.g. job-board backend) deployed free with docs"},
+      {name:"Job Readiness", items:["System-design basics: caching, queues, scaling reads","Resume bullets from your API metrics","Mock interviews: SQL drills + API design questions"], project:"Capstone: API + database + deployed demo + architecture diagram"}]},
+  fullstack:{title:"Full-Stack Developer", core:["HTML/CSS","JavaScript","React","Node.js","SQL"],
+    phases:[
+      {name:"Foundations", items:["HTML/CSS + JavaScript fluency","Git & GitHub from day one","One small end-to-end page: form → store → display"], project:"Personal portfolio + one interactive mini-app, deployed"},
+      {name:"Full-Stack Core", items:["React frontend + Node/Express API + SQL database","Auth, validation, file upload, error handling","Environment variables & deployment pipeline"], project:"Complete CRUD product (task manager / job tracker) live on free hosting"},
+      {name:"Job Readiness", items:["Testing + CI basics, Lighthouse & API performance pass","Portfolio case studies for both projects","Interview prep: JS, React, SQL, system-design-lite"], project:"Capstone: ship a product for a real local user (shop, club, NGO) and document impact"}]},
+  data:{title:"Data Analyst", core:["Python","SQL","Excel / Sheets","Data Analysis"],
+    phases:[
+      {name:"Foundations", items:["Excel/Sheets: pivots, XLOOKUP, charts, cleaning","SQL: filters, joins, GROUP BY, window-function intro","Python + pandas for cleaning real CSVs"], project:"Analysis of a public Indian dataset (data.gov.in) with 5 chart-backed insights"},
+      {name:"Analysis & Storytelling", items:["Dashboards: Sheets/Looker Studio or Power BI basics","Statistics essentials: averages, distributions, correlation ≠ causation","Write insight memos a manager can act on"], project:"Interactive dashboard + 1-page insight memo, published"},
+      {name:"Job Readiness", items:["Case-study interview practice (funnel, retention, A/B basics)","Resume: quantify every project insight","SQL + Excel timed drills"], project:"Capstone: end-to-end case study — question → data → dashboard → recommendation"}]},
+  aiml:{title:"AI / ML Engineer (entry)", core:["Python","Machine Learning","SQL","Data Analysis"],
+    phases:[
+      {name:"Foundations", items:["Python fluency + NumPy/pandas","Maths refresh: probability, linear algebra intuition","SQL for data extraction"], project:"Exploratory analysis notebook on an Indian public dataset, well documented"},
+      {name:"ML Core", items:["scikit-learn: regression, classification, evaluation metrics","Prompt engineering + LLM API basics; build one agent workflow","Avoid leakage; honest train/test reporting"], project:"ML model + simple web demo (e.g. resume or crop classifier) deployed free"},
+      {name:"Job Readiness", items:["Portfolio: 2 notebooks + 1 deployed demo, each with a README story","Interview prep: ML concepts + Python drills","Contribute one open-source PR or dataset fix"], project:"Capstone: agentic mini-product solving a local problem, with eval notes"}]},
+  devops:{title:"DevOps / Cloud Associate", core:["Linux / CLI","Git & GitHub","Cloud (AWS/Azure/GCP)","Python"],
+    phases:[
+      {name:"Foundations", items:["Linux CLI daily-driver fluency + shell scripting","Git & GitHub + networking basics (DNS, HTTP, ports)","One cloud free tier: launch, secure and monitor a VM"], project:"Host a static site + API on a cloud VM with HTTPS, documented step-by-step"},
+      {name:"Automation", items:["Docker: containerise an app, docker-compose","CI/CD with GitHub Actions: test → build → deploy","Infra basics: IAM, backups, logging, alerts"], project:"Full CI/CD pipeline for a sample app, with a runbook README"},
+      {name:"Job Readiness", items:["Incident-writeup practice (what broke, how you fixed it)","Resume: uptime, deploy-time and automation metrics","Interview prep: Linux, networking, cloud scenarios"], project:"Capstone: zero-downtime deployment demo + cost & security checklist"}]},
+  design:{title:"UI / UX Designer", core:["Figma","HTML/CSS","Communication"],
+    phases:[
+      {name:"Foundations", items:["Design principles: hierarchy, spacing, type, colour","Figma: components, auto-layout, prototyping","Study & teardown 5 apps your users love"], project:"Redesign a familiar local app flow (railway booking / UPI) in Figma"},
+      {name:"Process & Portfolio", items:["User research: 5 interviews, personas, journey maps","Wireframe → hi-fi → clickable prototype → handoff notes","Accessibility: contrast, touch targets, text scaling"], project:"End-to-end case study with research evidence, published (Behance/Notion)"},
+      {name:"Job Readiness", items:["Portfolio: 3 case studies max, each with problem → process → outcome","Whiteboard/design-challenge practice","Basic HTML/CSS literacy for developer handoff"], project:"Capstone: design for a real local business/NGO and measure one outcome"}]},
+  support:{title:"IT Support / QA", core:["Linux / CLI","Testing / QA","Communication","Git & GitHub"],
+    phases:[
+      {name:"Foundations", items:["Computer & network troubleshooting method (OSI in plain words)","Ticket craft: clear repro steps, severity, evidence","Excel/Sheets for logs and reports"], project:"Home lab logbook: document 10 real troubleshooting fixes with screenshots"},
+      {name:"Testing & Tools", items:["Manual testing: test cases, bug reports, regression passes","SQL basics for verifying data issues","Intro automation: one scripted test suite (Playwright/Selenium basics)"], project:"Test plan + bug-report portfolio for a public web app"},
+      {name:"Job Readiness", items:["Support-scenario roleplays (angry user, outage, escalation)","Resume: tickets resolved, response times, CSAT-style evidence","Interview prep: troubleshooting frameworks + QA concepts"], project:"Capstone: QA audit of a real site with a professional report + fixes verified"}]}
+};
+var QA_BANK = {
+  frontend:[["What is the difference between semantic and non-semantic HTML?","Points: semantic tags (header, main, article) describe meaning, help accessibility/SEO/screen readers; div/span carry no meaning. Example wins marks."],
+    ["Explain event delegation in JavaScript.","One listener on a parent handles events from children via bubbling — fewer listeners, works for dynamically added elements. Mention e.target and a use case."],
+    ["How do you make a page load faster?","Compress/optimise images, minify, lazy-load, reduce requests, use caching/CDN, watch Lighthouse metrics (LCP/CLS) — tie to a project where you improved a score."],
+    ["CSS: Flexbox vs Grid — when each?","Flexbox = one-dimensional rows/columns of content; Grid = two-dimensional page layout. Give one real example of each from your work."],
+    ["HR: Tell me about a project you're proud of.","Use STAR: Situation (problem), Task (your role), Action (what YOU built), Result (measurable outcome). Keep it under 2 minutes."]],
+  backend:[["Design a URL shortener's API.","Endpoints (POST /shorten, GET /:code → redirect), data model (code, long URL, expiry), collision handling, rate limits, analytics. Keep it structured."],
+    ["SQL: find the second-highest salary.","Use LIMIT/OFFSET or a subquery with MAX < max; mention DISTINCT and ties. Write it, don't just describe it."],
+    ["How does authentication with JWT work?","Server signs token on login; client stores & sends it; server verifies signature/expiry per request. Mention refresh tokens and never storing secrets client-side."],
+    ["What happens when an API gets 100× traffic?","Cache reads, index DB queries, paginate, queue writes, scale horizontally, add rate limiting — in that rough order of cost."],
+    ["HR: A bug hits production at 6pm Friday. What do you do?","Contain → communicate → diagnose with logs → fix or roll back → post-mortem. Calm, process-first answers score highest."]],
+  fullstack:[["Walk me through your capstone's architecture.","Browser → API → DB with one concrete request traced end-to-end; name your auth, validation and deployment choices and WHY."],
+    ["How do you handle a form that fails validation on server and client?","Client for instant feedback, server as source of truth; return field-level errors; never trust client-only checks (security)."],
+    ["Explain CORS like I'm a beginner.","Browsers block cross-origin reads by default; the server opts in with headers. Mention preflight requests and why credentials mode is stricter."],
+    ["SQL vs NoSQL for a job board — pick one.","Either can score if justified: relations (users/jobs/applications) favour SQL; mention scale, consistency and your actual project choice."],
+    ["HR: Why should we hire a fresher like you?","Proof over promises: deployed projects, a real user, consistent GitHub, and how fast you learned the stack — with specifics."]],
+  data:[["SQL: month-over-month growth from a sales table.","Aggregate by month, use LAG() window function, compute (curr−prev)/prev. Mention handling the first month's NULL."],
+    ["A chart shows sales doubling. What do you check first?","Axis truncation, changed definitions, missing data, seasonality, one-off bulk orders — scepticism before storytelling."],
+    ["Excel vs Python — when do you switch?","Excel for quick, small, shareable checks; Python when data is big, repetitive, or needs an audit trail. Give a real example."],
+    ["Explain correlation vs causation with an Indian example.","Ice-cream sales vs drowning both rise in summer (heat is the confounder). Interviewers want the confounder named."],
+    ["HR: Present one insight from your project in 60 seconds.","Headline first ('Refunds spike on COD orders'), then the number, then the recommended action."]],
+  aiml:[["Your model is 99% accurate. Should we ship it?","Ask about class balance first — 99% can be the majority-class baseline. Discuss precision/recall, the confusion matrix, and the cost of each error type."],
+    ["What is overfitting and how do you fight it?","Memorising training data, failing on new data. Fixes: more data, simpler model, regularisation, cross-validation, early stopping."],
+    ["Explain how you'd build a simple AI agent.","Goal → tools/APIs → loop of observe-decide-act → guardrails + evaluation. Ground it in a project you actually built."],
+    ["Train/test split — why not test on training data?","It measures memory, not generalisation. Mention leakage: features that secretly contain the answer."],
+    ["HR: How do you keep up with AI changing every month?","A system: docs/papers you follow, one build per month, communities — with a recent example of something you learned and used."]],
+  devops:[["A website is down. Your first 10 minutes?","Confirm scope (you/users/regions), check recent changes, DNS → server → app → DB in order, communicate status early, roll back if a deploy caused it."],
+    ["What is CI/CD, in your own pipeline?","Commit triggers tests (CI), passing builds deploy automatically/safely (CD). Describe YOUR GitHub Actions workflow, not a textbook."],
+    ["Docker container vs virtual machine?","Containers share the host kernel (light, fast); VMs virtualise hardware (stronger isolation). When you'd pick each."],
+    ["How do you keep a server secure on a budget?","Updates, key-only SSH, firewall least-open ports, IAM least privilege, backups tested, secrets out of code."],
+    ["HR: Describe fixing something that broke.","STAR format with the incident-writeup structure: impact, timeline, root cause, prevention. Honesty about your mistake scores well."]],
+  design:[["Walk me through your design process on one case study.","Research → define → ideate → prototype → test → iterate, each step with evidence (quotes, test results), not just pretty screens."],
+    ["A developer says your design is too hard to build. What do you do?","Ask which part and why, explore constraints together, simplify the interaction without losing the user goal — show a time you adapted."],
+    ["How do you design for users with low-end phones?","Large touch targets, high contrast, minimal typing, forgiving flows, test at small widths and slow networks."],
+    ["What makes a good error message?","Plain language, says what happened + how to fix it, appears where the error is, never blames the user. Give a before/after example."],
+    ["HR: Why design, and why this company?","Connect your case-study skills to THEIR product/users specifically. Generic answers are forgotten instantly."]],
+  support:[["A user says 'the internet is not working'. Your steps?","Clarify scope (one device/all), check physical/link layer up: cable/Wi-Fi → IP → DNS → service. Document as you go."],
+    ["Write a great bug report — what's in it?","Title, environment, steps to reproduce, expected vs actual, evidence (screenshot/log), severity + who is affected."],
+    ["Manual vs automated testing — your honest take?","Automate stable, repetitive regressions; keep humans on exploratory and usability. Mention a suite you actually ran."],
+    ["An angry user is shouting on a call. What do you do?","Listen fully, acknowledge impact, state what you'll do + by when, follow through. Never argue; escalate with a full handover note."],
+    ["HR: Why support/QA as a career start?","It's where product, users and technology meet — name the skills it builds and where you want to grow next."]]
+};
+var VERB_UPGRADES = {"worked":"Built","responsible":"Delivered","helped":"Partnered","made":"Built","did":"Executed","used":"Implemented","handled":"Managed","assisted":"Supported","created":"Designed & built","developed":"Engineered","fixed":"Resolved","tested":"Validated","wrote":"Authored","learned":"Applied","participated":"Contributed","involved":"Drove","tasked":"Owned","utilised":"Implemented","utilized":"Implemented"};
+var state = { skills:new Set(), plan:null, checks:{}, qaRatings:{}, apps:[] };
+try{ var saved = JSON.parse(localStorage.getItem("rozgarCoachV1")||"null"); if(saved){ state.checks=saved.checks||{}; state.qaRatings=saved.qaRatings||{}; state.apps=saved.apps||[]; state.plan=saved.plan||null; } }catch(e){}
+function save(){ try{ localStorage.setItem("rozgarCoachV1", JSON.stringify({checks:state.checks,qaRatings:state.qaRatings,apps:state.apps,plan:state.plan})); }catch(e){} }
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s||"").replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+/* ---- Skill chips ---- */
+SKILLS.forEach(function(s){
+  var b=document.createElement("button"); b.type="button"; b.className="chip"; b.textContent=s;
+  b.setAttribute("aria-pressed","false");
+  b.onclick=function(){ if(state.skills.has(s)){state.skills.delete(s);b.classList.remove("on");b.setAttribute("aria-pressed","false");} else {state.skills.add(s);b.classList.add("on");b.setAttribute("aria-pressed","true");} };
+  $("skillChips").appendChild(b);
+});
+
+/* ---- Agent log ---- */
+function logLines(lines, done){
+  var log=$("agentLog"); log.textContent="";
+  ["agPlanner","agResume","agInterview","agTracker"].forEach(function(id){ $(id).className="agent working"; });
+  var i=0;
+  (function next(){
+    if(i<lines.length){ log.textContent += (log.textContent?"\n":"")+"› "+lines[i]; i++; setTimeout(next, 420); }
+    else if(done){ ["agPlanner","agResume","agInterview","agTracker"].forEach(function(id){ $(id).className="agent done"; }); done(); }
+  })();
+}
+
+/* ---- Roadmap generation ---- */
+function buildPlan(){
+  var role=$("fRole").value, data=ROLE_DATA[role], weeks=parseInt($("fWeeks").value,10);
+  var hours=parseInt($("fHours").value,10), level=$("fLevel").value, name=$("fName").value.trim();
+  var have=Array.from(state.skills);
+  var gaps=data.core.filter(function(s){ return !state.skills.has(s); });
+  logLines([
+    "Planner Agent: goal locked — "+data.title+(name?" for "+name:"")+".",
+    "Planner Agent: gap analysis — you have "+have.length+" listed skill(s); "+(gaps.length?("priority gaps: "+gaps.join(", ")+"."):"core skills covered — plan weighted to portfolio & interviews."),
+    "Resume Agent: will convert each phase project into quantified bullets.",
+    "Interview Agent: queued "+(QA_BANK[role].length)+" "+data.title+" questions for the final phase.",
+    "Tracker Agent: ready — log applications as soon as Phase 1 project ships."
+  ], function(){ renderPlan(role,weeks,hours,level,gaps); });
+}
+function renderPlan(role,weeks,hours,level,gaps){
+  var data=ROLE_DATA[role]; state.plan={role:role,weeks:weeks};
+  var perPhase=Math.max(1, Math.round(weeks/3));
+  var html='<div class="card"><h2 style="font-size:1.3rem">Your '+weeks+'-week roadmap — '+esc(data.title)+'</h2>'+
+    '<p class="sub" style="margin-bottom:4px">Pace: ~'+hours+' hr/day. '+(level==="beginner"?"Starting from basics — foundations get extra weight.":level==="project"?"You have project experience — plan leans into job readiness.":"Balanced build-up from your current base.")+
+    (gaps.length?' Priority skill gaps: <b>'+esc(gaps.join(", "))+'</b>.':'')+'</p></div>';
+  var wk=1;
+  data.phases.forEach(function(ph,pi){
+    var end=Math.min(weeks, wk+perPhase-1); if(pi===2) end=weeks;
+    html+='<div class="week"><div class="focus">Phase '+(pi+1)+' · Weeks '+wk+'–'+end+'</div><h3>'+esc(ph.name)+'</h3>';
+    ph.items.forEach(function(it,ii){
+      var key=role+"-"+pi+"-"+ii, done=!!state.checks[key];
+      html+='<label class="task'+(done?" done":"")+'"><input type="checkbox" data-task="'+key+'" '+(done?"checked":"")+'><span>'+esc(it)+'</span></label>';
+    });
+    html+='<div class="proj">📦 <b>Portfolio project:</b> '+esc(ph.project)+'</div></div>';
+    wk=end+1;
+  });
+  html+='<div class="week" style="border-color:var(--saffron)"><div class="focus">Final week</div><h3>Apply with proof, not hope</h3>'+
+    '<label class="task"><span>✅ Publish all projects with READMEs (problem → build → result) · ✅ Improve 5 resume bullets below · ✅ Reach “Confident” on all interview questions · ✅ Apply to 5+ roles/week in the Tracker and follow up within 7 days.</span></label></div>';
+  $("planOut").innerHTML=html;
+  document.querySelectorAll("[data-task]").forEach(function(cb){
+    cb.addEventListener("change", function(){ state.checks[cb.getAttribute("data-task")]=cb.checked; cb.closest(".task").classList.toggle("done",cb.checked); save(); updateScore(); });
+  });
+  $("scoreCard").style.display="block"; save(); updateScore();
+  $("planOut").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function updateScore(){
+  var total=document.querySelectorAll("[data-task]").length;
+  var done=Object.keys(state.checks).filter(function(k){return state.checks[k];}).length;
+  var pct= total? Math.round(done/total*70) : 0;
+  var conf=Object.keys(state.qaRatings).filter(function(k){return state.qaRatings[k]==="Confident";}).length;
+  pct+=Math.min(15, conf*3);
+  var offers=state.apps.filter(function(a){return a.status==="Interview"||a.status==="Offer";}).length;
+  pct+=Math.min(15, offers*5 + state.apps.length*1);
+  pct=Math.min(100,pct);
+  $("scoreNum").textContent=pct; $("scoreBar").style.width=pct+"%";
+  $("scoreHint").textContent= pct<30 ? "Foundation stage — finish Phase 1 tasks to move fast." : pct<60 ? "Building stage — projects + interview practice push you into interview range." : pct<85 ? "Interview range — keep applying weekly and following up." : "Offer range — you have proof, practice and pipeline. Keep the funnel full.";
+}
+$("btnPlan").addEventListener("click", buildPlan);
+$("btnDemo").addEventListener("click", function(){
+  $("fName").value="Ananya"; $("fRole").value="frontend"; $("fLevel").value="some"; $("fWeeks").value="8";
+  state.skills=new Set(["HTML/CSS","JavaScript"]);
+  document.querySelectorAll(".chip").forEach(function(c){ var on=state.skills.has(c.textContent); c.classList.toggle("on",on); c.setAttribute("aria-pressed",on?"true":"false"); });
+  buildPlan();
+});
+
+/* ---- Resume bullet improver (local rule-based) ---- */
+function improveBullet(raw){
+  var text=(raw||"").trim().replace(/\s+/g," ");
+  if(!text) return null;
+  var lower=text.toLowerCase();
+  var weak=null;
+  Object.keys(VERB_UPGRADES).forEach(function(w){ if(!weak && (lower.indexOf(w+" ")===0 || lower.indexOf("was "+w)>=0 || lower.indexOf("i "+w+" ")===0)) weak=w; });
+  var firstWord=(text.split(" ")[0]||"").toLowerCase().replace(/[^a-z]/g,"");
+  if(!weak && VERB_UPGRADES[firstWord]) weak=firstWord;
+  var strong=VERB_UPGRADES[weak]||"Built";
+  var cleaned=text.replace(/^(i\s+)?(was\s+)?(responsible for|worked on|helped with|helped|involved in|tasked with)\s+/i,"")
+                   .replace(/^(worked|helped|made|did|used|handled|assisted)\s+/i,"");
+  cleaned=cleaned.charAt(0).toUpperCase()+cleaned.slice(1);
+  var hasNumber=/\d/.test(text);
+  var v1=strong+" "+cleaned.charAt(0).toLowerCase()+cleaned.slice(1);
+  var v2=v1.replace(/\.*$/,"")+" — improving [result: e.g. load time / accuracy / user count] by [X%] for [N users / pages / records]";
+  var core=cleaned.replace(/\s+(and|with)\s+(helped|assisted).*$/i,"");
+  var v3=strong+" "+core.charAt(0).toLowerCase()+core.slice(1).replace(/\.*$/,"")+" using "+(detectTech(text)||"[core tech]");
+  return {v1:v1.replace(/\.*$/,"")+ (hasNumber?"": " — add one true number if you have it (users, pages, %, time saved)"),
+          v2:v2, v3:v3, weak:weak, hasNumber:hasNumber};
+}
+function detectTech(t){
+  var techs=["HTML","CSS","JavaScript","React","Python","SQL","Java","Node","Figma","Excel","pandas","Docker","AWS","Git"];
+  var found=techs.filter(function(x){ return new RegExp("\\b"+x.replace("+","\\+")+"\\b","i").test(t); });
+  return found.length? found.join(" + ") : null;
+}
+function runBullet(){
+  var r=improveBullet($("bulletIn").value);
+  if(!r){ $("bulletOut").innerHTML='<p class="empty">Paste a bullet first — even a rough one. The agent needs raw material.</p>'; return; }
+  $("bulletOut").innerHTML=
+    (r.weak?'<p class="small">Detected weak opener: “'+esc(r.weak)+'…” → upgraded to a strong action verb. '+(r.hasNumber?"Good — your bullet already carries a number.":"No metric found — versions 1–2 show where a true metric belongs.")+'</p>':'<p class="small">No weak opener detected — applying structure: action + build + result.</p>')+
+    '<div class="bullet-out"><span class="tag">Version A · Strong</span><br><b>'+esc(r.v1)+'</b></div>'+
+    '<div class="bullet-out"><span class="tag">Version B · Quantified</span><br><b>'+esc(r.v2)+'</b><br><span class="small">Fill the brackets with measured, true numbers only.</span></div>'+
+    '<div class="bullet-out"><span class="tag">Version C · Concise + Tech</span><br><b>'+esc(r.v3)+'</b></div>';
+}
+$("btnBullet").addEventListener("click", runBullet);
+$("btnBulletDemo").addEventListener("click", function(){ $("bulletIn").value="Worked on a college project website using HTML and CSS and helped my team with testing"; runBullet(); });
+
+/* ---- Interview practice ---- */
+function renderQA(){
+  var role=$("qRole").value, qs=QA_BANK[role]||[];
+  $("qaOut").innerHTML=qs.map(function(q,i){
+    var key=role+"-q"+i, rating=state.qaRatings[key]||"";
+    return '<div class="qa" id="qa-'+i+'"><h3>Q'+(i+1)+'. '+esc(q[0])+'</h3>'+
+      '<button class="btn btn-ghost btn-sm" type="button" data-reveal="'+i+'">Reveal model points</button> '+
+      '<select data-rate="'+key+'" aria-label="Rate your confidence for question '+(i+1)+'"><option value="">Rate yourself…</option><option'+(rating==="Shaky"?" selected":"")+'>Shaky</option><option'+(rating==="Getting there"?" selected":"")+'>Getting there</option><option'+(rating==="Confident"?" selected":"")+'>Confident</option></select>'+
+      '<div class="ans"><b>Model points:</b> '+esc(q[1])+'</div></div>';
+  }).join("");
+  document.querySelectorAll("[data-reveal]").forEach(function(b){ b.addEventListener("click", function(){ $("qa-"+b.getAttribute("data-reveal")).classList.toggle("open"); }); });
+  document.querySelectorAll("[data-rate]").forEach(function(s){ s.addEventListener("change", function(){ state.qaRatings[s.getAttribute("data-rate")]=s.value; save(); if(state.plan) updateScore(); }); });
+}
+$("qRole").addEventListener("change", renderQA); renderQA();
+
+/* ---- Application tracker (localStorage) ---- */
+function renderApps(){
+  var stats={}; state.apps.forEach(function(a){ stats[a.status]=(stats[a.status]||0)+1; });
+  $("trackStats").innerHTML='<p class="small" style="font-size:.95rem"><b>'+state.apps.length+' application(s) tracked</b>'+(state.apps.length? " — "+Object.keys(stats).map(function(k){return esc(k)+": "+stats[k];}).join(" · "):"")+'</p>';
+  if(!state.apps.length){ $("trackOut").innerHTML='<div class="empty">No applications yet. Your first application is the hardest — log it here the moment you apply.</div>'; return; }
+  var rows=state.apps.map(function(a,i){
+    return '<tr><td><b>'+esc(a.company)+'</b><br><span class="small">'+esc(a.role)+'</span></td><td><span class="status">'+esc(a.status)+'</span></td><td>'+esc(a.date||"—")+'</td><td>'+esc(a.notes||"")+'</td>'+
+    '<td><select data-appstatus="'+i+'" aria-label="Update status"><option>Wishlist</option><option>Applied</option><option>Assessment</option><option>Interview</option><option>Offer</option><option>Rejected</option></select> '+
+    '<button class="btn btn-ghost btn-sm" type="button" data-delapp="'+i+'">Delete</button></td></tr>';
+  }).join("");
+  $("trackOut").innerHTML='<table><thead><tr><th>Company / Role</th><th>Status</th><th>Date</th><th>Notes</th><th>Update</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  document.querySelectorAll("[data-appstatus]").forEach(function(s){ var a=state.apps[+s.getAttribute("data-appstatus")]; s.value=a.status; s.addEventListener("change", function(){ a.status=s.value; save(); renderApps(); if(state.plan) updateScore(); }); });
+  document.querySelectorAll("[data-delapp]").forEach(function(b){ b.addEventListener("click", function(){ state.apps.splice(+b.getAttribute("data-delapp"),1); save(); renderApps(); }); });
+}
+$("btnAddApp").addEventListener("click", function(){
+  var c=$("aCompany").value.trim(), r=$("aRole").value.trim();
+  if(!c||!r){ alert("Add at least a company and a role."); return; }
+  state.apps.unshift({company:c, role:r, status:$("aStatus").value, date:$("aDate").value, notes:$("aNotes").value.trim()});
+  $("aCompany").value=""; $("aRole").value=""; $("aNotes").value="";
+  save(); renderApps(); if(state.plan) updateScore();
+});
+(function init(){ $("aDate").value=new Date().toISOString().slice(0,10); renderApps(); if(state.plan){ $("scoreCard").style.display="block"; updateScore(); } })();
+</script>
+</body>
+</html>
